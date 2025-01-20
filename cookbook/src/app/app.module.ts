@@ -5,17 +5,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainPageComponent } from './main-page/main-page.component';
-import { NewRecipeComponent } from './new-recipe/new-recipe.component';
-import { MyRecipeComponent } from './my-recipe/my-recipe.component';
+import { MyRecipesComponent } from './my-recipes/my-recipes.component';
 import { MyRecipeCompleteComponent } from './my-recipe-complete/my-recipe-complete.component';
+import { NewRecipeComponent } from './new-recipe/new-recipe.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
-    NewRecipeComponent,
-    MyRecipeComponent,
-    MyRecipeCompleteComponent
+    MyRecipesComponent,
+    MyRecipeCompleteComponent,
+    NewRecipeComponent
   ],
   imports: [
     BrowserModule,
