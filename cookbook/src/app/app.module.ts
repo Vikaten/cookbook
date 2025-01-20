@@ -8,6 +8,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { MyRecipesComponent } from './my-recipes/my-recipes.component';
 import { MyRecipeCompleteComponent } from './my-recipe-complete/my-recipe-complete.component';
 import { NewRecipeComponent } from './new-recipe/new-recipe.component';
+import { NavigationComponent } from './navigation/navigation.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { NewRecipeComponent } from './new-recipe/new-recipe.component';
     MainPageComponent,
     MyRecipesComponent,
     MyRecipeCompleteComponent,
-    NewRecipeComponent
+    NewRecipeComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
