@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.my-recipes-container {
+  width: 700px;
+}
+
+.my-recipe-block {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 50px;
+}
+
+h3 {
+  margin: 0;
+  flex-grow: 1;
+}
+
+.cook-img {
+  width: 70px;
+  border-radius: 50%;
+}
