@@ -3,7 +3,13 @@
     <p>Название</p>
     <mat-form-field class="title-recipe-form form-field">
       <mat-label></mat-label>
-      <input matInput placeholder="Например, Чизкейк" required />
+      <input
+        matInput
+        placeholder="Например, Чизкейк"
+        required
+        [(ngModel)]="nameRecipe"
+        name="recipeName"
+      />
     </mat-form-field>
   </div>
 
@@ -12,25 +18,55 @@
     <div class="ingredients-recipe-input-block">
       <mat-form-field class="ingredients-recipe-form form-field">
         <mat-label></mat-label>
-        <input matInput placeholder="Например, Помидоры" required />
+        <input
+          matInput
+          placeholder="Например, Помидоры"
+          required
+          [(ngModel)]="ingredient"
+          name="ingredientName"
+        />
       </mat-form-field>
-      <input type="number" min="0" step="1" class="number-up-down" />
-      <mat-select class="select"></mat-select>
+      <input
+        type="number"
+        min="0"
+        step="1"
+        class="number-up-down"
+        [(ngModel)]="ingredientQuantity"
+        name="ingredientQuantity"
+      />
+      <mat-select
+        class="select"
+        [(ngModel)]="ingredientUnit"
+        name="ingredientUnit"
+      >
+        <mat-option *ngFor="let el of measurements" [value]="el">{{
+          el
+        }}</mat-option>
+      </mat-select>
     </div>
-    <button>Добавить ингредиент</button>
+    <div *ngFor="let el of ingredients">
+      {{ el.name }} ({{ el.quantity }} {{ el.unit }})
+    </div>
+    <button (click)="addMeasurements()">Добавить ингредиент</button>
   </div>
 
   <div class="description-recipe">
     <p>Описание</p>
     <mat-form-field class="description-recipe-form form-field">
-      <mat-label>Leave a comment</mat-label>
-      <textarea matInput></textarea>
+      <mat-label>Ваше описание</mat-label>
+      <textarea
+        matInput
+        required
+        [(ngModel)]="descriptionRecipe"
+        name="descriptionRecipe"
+      ></textarea>
     </mat-form-field>
   </div>
 
-  <div class="img-recipe">
+  <div class="img-recipe-block">
     <p>Изображение</p>
-    <input type="file" />
+    <input type="file" (change)="onloadImg($event)" />
   </div>
-  <button>Сохранить</button>
+  <img *ngIf="imageSrc" [src]="imageSrc" alt="" class="img-recipe" />
+  <button (click)="submitData()">Сохранить</button>
 </form>
