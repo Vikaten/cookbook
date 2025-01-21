@@ -1,1 +1,36 @@
-<p>new-recipe works!</p>
+<form class="container-form">
+  <div class="title-recipe">
+    <p>Название</p>
+    <mat-form-field class="title-recipe-form form-field">
+      <mat-label></mat-label>
+      <input matInput placeholder="Например, Чизкейк" required />
+    </mat-form-field>
+  </div>
+
+  <div class="ingredients-recipe">
+    <p>Ингредиенты</p>
+    <div class="ingredients-recipe-input-block">
+      <mat-form-field class="ingredients-recipe-form form-field">
+        <mat-label></mat-label>
+        <input matInput placeholder="Например, Помидоры" required />
+      </mat-form-field>
+      <input type="number" min="0" step="1" class="number-up-down" />
+      <mat-select class="select"></mat-select>
+    </div>
+    <button>Добавить ингредиент</button>
+  </div>
+
+  <div class="description-recipe">
+    <p>Описание</p>
+    <mat-form-field class="description-recipe-form form-field">
+      <mat-label>Leave a comment</mat-label>
+      <textarea matInput></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="img-recipe">
+    <p>Изображение</p>
+    <input type="file" />
+  </div>
+  <button>Сохранить</button>
+</form>

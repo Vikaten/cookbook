@@ -9,6 +9,9 @@ import { MyRecipesComponent } from './my-recipes/my-recipes.component';
 import { MyRecipeCompleteComponent } from './my-recipe-complete/my-recipe-complete.component';
 import { NewRecipeComponent } from './new-recipe/new-recipe.component';
 import { NavigationComponent } from './navigation/navigation.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { NavigationComponent } from './navigation/navigation.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

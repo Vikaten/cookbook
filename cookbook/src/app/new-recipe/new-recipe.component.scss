@@ -1,0 +1,54 @@
+$width: 700px;
+
+button {
+  width: 120px;
+  height: 50px;
+  border-radius: 20px;
+}
+
+.container-form {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title-recipe,
+.ingredients-recipe {
+  width: $width;
+  display: flex;
+  flex-direction: column;
+}
+
+.number-up-down {
+  width: 70px;
+  height: 30px;
+}
+
+.select {
+  width: 150px;
+}
+
+.ingredients-recipe-input-block {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.ingredients-recipe-form {
+  flex-grow: 1;
+}
+
+.ingredients-recipe,
+.img-recipe {
+  margin-bottom: 20px;
+}
+
+.description-recipe-form {
+  width: $width;
+}
+
+.img-recipe {
+  width: $width;
+}
