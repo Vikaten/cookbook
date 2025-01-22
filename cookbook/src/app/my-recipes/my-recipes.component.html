@@ -1,8 +1,8 @@
 <div class="my-recipes-container">
   <h1>Ваши рецепты</h1>
-  <div class="my-recipe-block">
-    <img src="assets/cook-img.webp" alt="картинка" class="cook-img" />
-    <h3>Тут будет заголовок</h3>
+  <div class="my-recipe-block" *ngFor="let recipe of titleRecipe$ | async">
+    <img *ngIf="recipe.picture" [src]="recipe.picture" alt="картинка" class="cook-img" />
+    <h3>{{ recipe.name }}</h3>
     <mat-icon>arrow_right_alt</mat-icon>
   </div>
 </div>
