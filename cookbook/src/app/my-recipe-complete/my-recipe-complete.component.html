@@ -1,23 +1,29 @@
 <form class="container-form">
-  <div class="title-recipe">
-    <h2>Название</h2>
-    <p>Тут будет название</p>
-  </div>
+  <div class="wrapper">
+    <div class="title-recipe">
+      <h2>Название</h2>
+      <p>{{ recipe?.name }}</p>
+    </div>
 
-  <div class="ingredients-recipe">
-    <h2>Ингредиенты</h2>
-    <ul>
-      <li>Помидор (1 шт)</li>
-    </ul>
-  </div>
+    <div class="ingredients-recipe">
+      <h2>Ингредиенты</h2>
+      <ul *ngFor="let ingredient of recipe?.ingredients">
+        <li>
+          {{ ingredient.name }} ({{ ingredient.quantity }}
+          {{ ingredient.unit }})
+        </li>
+      </ul>
+    </div>
 
-  <div class="description-recipe">
-    <h2>Описание</h2>
-    <p>Описание</p>
-  </div>
+    <div class="description-recipe">
+      <h2>Описание</h2>
+      <p>{{ recipe?.description }}</p>
+    </div>
 
-  <div class="img-recipe">
-    <h2>Изображение</h2>
-    <input type="file" />
+    <div class="img-recipe" *ngIf="recipe?.picture">
+      <h2>Изображение</h2>
+      <img src="{{ recipe?.picture }}" />
+    </div>
   </div>
+  <mat-icon>edit</mat-icon>
 </form>

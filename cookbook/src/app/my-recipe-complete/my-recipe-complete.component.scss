@@ -1,7 +1,13 @@
-.container-form {
+.wrapper {
   display: flex;
   flex-direction: column;
   align-items: right;
-  margin: 0 auto;
   padding-left: 30px;
+}
+
+.container-form {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  justify-content: space-between;
 }
