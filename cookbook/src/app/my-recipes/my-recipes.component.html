@@ -1,6 +1,6 @@
 <div class="my-recipes-container">
   <h1>Ваши рецепты</h1>
-  <div class="my-recipe-block" *ngFor="let recipe of titleRecipe$ | async">
+  <div class="my-recipe-block" *ngFor="let recipe of titleRecipe$ | async; let i = index;" (click)="dataService.openRecipe(i)">
     <img
       *ngIf="recipe.picture"
       [src]="recipe.picture"
