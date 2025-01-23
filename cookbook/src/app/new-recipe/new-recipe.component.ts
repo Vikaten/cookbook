@@ -81,19 +81,24 @@ export class NewRecipeComponent {
   }
 
   submitData() {
-    const recipe: IRecipe = {
-      name: this.nameRecipe,
-      ingredients: [...this.ingredients],
-      description: this.descriptionRecipe,
-      picture: this.imageSrc,
-    };
-    this.dataService.saveData(recipe);
-    this.nameRecipe = '';
-    this.descriptionRecipe = '';
-    this.ingredients = [];
-    this.imageSrc = null;
+    if (this.nameRecipe !== '' && this.descriptionRecipe !== '' && this.ingredients.length !== 0) {
+      const recipe: IRecipe = {
+        name: this.nameRecipe,
+        ingredients: [...this.ingredients],
+        description: this.descriptionRecipe,
+        picture: this.imageSrc,
+      };
+      this.dataService.saveData(recipe);
+      this.nameRecipe = '';
+      this.descriptionRecipe = '';
+      this.ingredients = [];
+      this.imageSrc = null;
 
-    alert('Ваш рецепт успешно добавлен!');
-    // this.router.navigate(['my-recipes']);
+      alert('Ваш рецепт успешно добавлен!');
+      this.router.navigate(['my-recipes']);
+    }
+    else {
+      alert('Вы не ввели все данные');
+    }
   }
 }
