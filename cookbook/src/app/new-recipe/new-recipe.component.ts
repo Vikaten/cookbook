@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IRecipe, DataService } from '../data.service';
+import { Router } from '@angular/router';
 
 export interface Ingredient {
   name: string;
@@ -23,7 +24,7 @@ export class NewRecipeComponent {
   descriptionRecipe: string = '';
   imgRecipe: string = '';
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private router: Router) {}
 
   addMeasurements() {
     if (
@@ -80,17 +81,24 @@ export class NewRecipeComponent {
   }
 
   submitData() {
-    const recipe: IRecipe = {
-      name: this.nameRecipe,
-      ingredients: this.ingredients,
-      description: this.descriptionRecipe,
-      picture: this.imageSrc,
-    };
-    this.dataService.saveData(recipe);
-    this.nameRecipe = '';
-    this.ingredients = [];
-    this.descriptionRecipe = '';
-    this.imageSrc = null;
-    alert('Ваш рецепт успешно добавлен!');
+    if (this.nameRecipe !== '' && this.descriptionRecipe !== '' && this.ingredients.length !== 0) {
+      const recipe: IRecipe = {
+        name: this.nameRecipe,
+        ingredients: [...this.ingredients],
+        description: this.descriptionRecipe,
+        picture: this.imageSrc,
+      };
+      this.dataService.saveData(recipe);
+      this.nameRecipe = '';
+      this.descriptionRecipe = '';
+      this.ingredients = [];
+      this.imageSrc = null;
+
+      alert('Ваш рецепт успешно добавлен!');
+      this.router.navigate(['my-recipes']);
+    }
+    else {
+      alert('Вы не ввели все данные');
+    }
   }
 }
