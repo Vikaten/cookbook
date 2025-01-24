@@ -31,11 +31,9 @@ export class DataService {
     this.recipesArr.push(newRecipe);
     localStorage.setItem('recipes', JSON.stringify(this.recipesArr));
     this.recipesSubject.next(this.recipesArr);
-    console.log(this.recipesArr);
   }
 
   getRecipes() {
-    console.log(this.recipesArr);
     return this.recipesSubject.asObservable();
   }
 
@@ -44,7 +42,6 @@ export class DataService {
     this.selectedRecipeIndex = index;
     this.selectedRecipeSubject.next(recipe);
     this.router.navigate(['my-recipe-complete']);
-    console.log(recipe);
     return recipe;
   }
 
