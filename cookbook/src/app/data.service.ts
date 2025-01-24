@@ -41,7 +41,7 @@ export class DataService {
     const recipe = this.recipesArr[index];
     this.selectedRecipeIndex = index;
     this.selectedRecipeSubject.next(recipe);
-    this.router.navigate(['my-recipe-complete']);
+    this.router.navigate(['my-recipe-complete', index]);
     return recipe;
   }
 
@@ -53,9 +53,7 @@ export class DataService {
     if (index >= 0 && index < this.recipesArr.length) {
       this.recipesArr[index] = updatedRecipe;
       localStorage.removeItem('recipes');
-      // localStorage.setItem('recipes', JSON.stringify(this.recipesArr));
-      // localStorage.setItem('recipe', JSON.stringify(this.recipesArr[index]));
-      // localStorage.getItem('recipe');
+      localStorage.setItem('recipes', JSON.stringify(this.recipesArr));
       this.recipesSubject.next(this.recipesArr);
     }
   }
@@ -65,5 +63,12 @@ export class DataService {
     localStorage.removeItem('recipes');
     localStorage.setItem('recipes', JSON.stringify(this.recipesArr));
     localStorage.getItem('recipes');
+  }
+
+  getRecipeByIndex(index: number): IRecipe | undefined {
+    if (index >= 0 && index < this.recipesArr.length) {
+      return this.recipesArr[index];
+    }
+    return undefined;
   }
 }

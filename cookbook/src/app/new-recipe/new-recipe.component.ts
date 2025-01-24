@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IRecipe, DataService } from '../data.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
 
@@ -29,7 +29,8 @@ export class NewRecipeComponent {
   constructor(
     private dataService: DataService,
     private router: Router,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private route: ActivatedRoute
   ) {}
 
   addMeasurements() {
@@ -106,12 +107,7 @@ export class NewRecipeComponent {
       } else {
         this.dataService.saveData(recipe);
       }
-
-      this.nameRecipe = '';
-      this.descriptionRecipe = '';
-      this.ingredients = [];
-      this.imageSrc = null;
-
+      this.resetForm();
       this.openModal('Ваш рецепт успешно сохранен!');
       this.router.navigate(['my-recipes']);
     } else {
@@ -120,14 +116,28 @@ export class NewRecipeComponent {
   }
 
   ngOnInit(): void {
-    this.dataService.getSelectedRecipe().subscribe((recipe) => {
-      if (recipe) {
-        this.nameRecipe = recipe.name;
-        this.ingredients = recipe.ingredients;
-        this.descriptionRecipe = recipe.description;
-        this.imageSrc = recipe.picture;
-      }
-    });
+    const index = this.route.snapshot.paramMap.get('index');
+    if (index !== null) {
+      this.dataService.selectedRecipeIndex = +index;
+      this.dataService.getSelectedRecipe().subscribe((recipe) => {
+        if (recipe) {
+          this.nameRecipe = recipe.name;
+          this.ingredients = recipe.ingredients;
+          this.descriptionRecipe = recipe.description;
+          this.imageSrc = recipe.picture;
+        }
+      });
+    } else {
+      this.dataService.selectedRecipeIndex = null;
+      this.resetForm();
+    }
+  }
+
+  resetForm() {
+    this.nameRecipe = '';
+    this.descriptionRecipe = '';
+    this.ingredients = [];
+    this.imageSrc = null;
   }
 
   deleteIngredient(index: number) {
@@ -135,6 +145,9 @@ export class NewRecipeComponent {
   }
 
   openModal(text: string) {
-    this.matDialog.open(ModalComponent, { width: '400px', data: { message: text } });
+    this.matDialog.open(ModalComponent, {
+      width: '400px',
+      data: { message: text },
+    });
   }
 }
