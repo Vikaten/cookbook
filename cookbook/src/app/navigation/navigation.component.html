@@ -1,7 +1,7 @@
 <nav>
   <ul class="list-items">
-    <li><a href="">Главная</a></li>
-    <li><a href="my-recipes">Мои рецепты</a></li>
-    <li><a href="add-new-recipe">Добавить рецепт</a></li>
+    <li><a routerLink="/" routerLinkActive="active-page" [routerLinkActiveOptions]="{exact: true}">Главная</a></li>
+    <li><a routerLink="/my-recipes" routerLinkActive="active-page">Мои рецепты</a></li>
+    <li><a routerLink="/add-new-recipe" routerLinkActive="active-page">Добавить рецепт</a></li>
   </ul>
 </nav>

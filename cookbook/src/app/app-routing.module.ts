@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'add-new-recipe', component: NewRecipeComponent },
   { path: 'my-recipes', component: MyRecipesComponent },
-  { path: 'my-recipe-complete', component: MyRecipeCompleteComponent },
+  { path: 'my-recipe-complete/:index', component: MyRecipeCompleteComponent },
+  { path: 'edit-recipe/:index', component: NewRecipeComponent },
 ];
 
 @NgModule({
