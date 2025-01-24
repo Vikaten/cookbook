@@ -59,4 +59,11 @@ export class DataService {
       this.recipesSubject.next(this.recipesArr);
     }
   }
+
+  deleteRecipe(index: number) {
+    this.recipesArr.splice(index, 1);
+    localStorage.removeItem('recipes');
+    localStorage.setItem('recipes', JSON.stringify(this.recipesArr));
+    localStorage.getItem('recipes');
+  }
 }
