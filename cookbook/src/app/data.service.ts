@@ -24,6 +24,7 @@ export class DataService {
   private recipesArr: IRecipe[] = [];
   public recipesSubject = new BehaviorSubject<IRecipe[]>(this.recipesArr);
   public selectedRecipeSubject = new BehaviorSubject<IRecipe | null>(null);
+  public selectedRecipeIndex: number | null = null;
   savedRecipes = localStorage.getItem('recipes');
 
   saveData(newRecipe: IRecipe) {
@@ -40,6 +41,7 @@ export class DataService {
 
   openRecipe(index: number) {
     const recipe = this.recipesArr[index];
+    this.selectedRecipeIndex = index;
     this.selectedRecipeSubject.next(recipe);
     this.router.navigate(['my-recipe-complete']);
     console.log(recipe);
@@ -48,5 +50,13 @@ export class DataService {
 
   getSelectedRecipe() {
     return this.selectedRecipeSubject.asObservable();
+  }
+
+  updateData(updatedRecipe: IRecipe, index: number) {
+    if (index >= 0 && index < this.recipesArr.length) {
+      this.recipesArr[index] = updatedRecipe;
+      localStorage.setItem('recipe', JSON.stringify(this.recipesArr[index]));
+      this.recipesSubject.next(this.recipesArr);
+    }
   }
 }

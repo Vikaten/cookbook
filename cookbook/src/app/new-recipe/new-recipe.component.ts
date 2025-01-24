@@ -81,24 +81,46 @@ export class NewRecipeComponent {
   }
 
   submitData() {
-    if (this.nameRecipe !== '' && this.descriptionRecipe !== '' && this.ingredients.length !== 0) {
+    if (
+      this.nameRecipe !== '' &&
+      this.descriptionRecipe !== '' &&
+      this.ingredients.length !== 0
+    ) {
       const recipe: IRecipe = {
         name: this.nameRecipe,
         ingredients: [...this.ingredients],
         description: this.descriptionRecipe,
         picture: this.imageSrc,
       };
-      this.dataService.saveData(recipe);
+      if (this.dataService.selectedRecipeIndex !== null) {
+        this.dataService.updateData(
+          recipe,
+          this.dataService.selectedRecipeIndex
+        );
+      } else {
+        this.dataService.saveData(recipe);
+      }
+
       this.nameRecipe = '';
       this.descriptionRecipe = '';
       this.ingredients = [];
       this.imageSrc = null;
-
-      alert('Ваш рецепт успешно добавлен!');
+      
+      alert('Ваш рецепт успешно сохранен!');
       this.router.navigate(['my-recipes']);
-    }
-    else {
+    } else {
       alert('Вы не ввели все данные');
     }
+  }
+
+  ngOnInit(): void {
+    this.dataService.getSelectedRecipe().subscribe((recipe) => {
+      if (recipe) {
+        this.nameRecipe = recipe.name;
+        this.ingredients = recipe.ingredients;
+        this.descriptionRecipe = recipe.description;
+        this.imageSrc = recipe.picture;
+      }
+    });
   }
 }
