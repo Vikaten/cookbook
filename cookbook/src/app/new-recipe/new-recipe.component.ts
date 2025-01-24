@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IRecipe, DataService } from '../data.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from '../modal/modal.component';
 
 export interface Ingredient {
   name: string;
@@ -24,7 +26,11 @@ export class NewRecipeComponent {
   descriptionRecipe: string = '';
   imgRecipe: string = '';
 
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    private matDialog: MatDialog
+  ) {}
 
   addMeasurements() {
     if (
@@ -42,7 +48,7 @@ export class NewRecipeComponent {
       this.ingredientQuantity = 0;
       this.ingredientUnit = '';
     } else {
-      alert('ВВедите значения');
+      this.openModal('Введите значения!');
     }
   }
 
@@ -69,7 +75,7 @@ export class NewRecipeComponent {
           };
           reader.readAsDataURL(input.files[0]);
         } else {
-          alert(
+          this.openModal(
             'Вы добавили неверного формата изображение. Выберите другое с одним из следующих расширений: ' +
               expansionImg.join(', ')
           );
@@ -106,10 +112,10 @@ export class NewRecipeComponent {
       this.ingredients = [];
       this.imageSrc = null;
 
-      alert('Ваш рецепт успешно сохранен!');
+      this.openModal('Ваш рецепт успешно сохранен!');
       this.router.navigate(['my-recipes']);
     } else {
-      alert('Вы не ввели все данные');
+      this.openModal('Вы не ввели все данные');
     }
   }
 
@@ -126,5 +132,9 @@ export class NewRecipeComponent {
 
   deleteIngredient(index: number) {
     this.ingredients.splice(index, 1);
+  }
+
+  openModal(text: string) {
+    this.matDialog.open(ModalComponent, { width: '400px', data: { message: text } });
   }
 }

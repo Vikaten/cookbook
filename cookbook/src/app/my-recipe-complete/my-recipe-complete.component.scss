@@ -26,6 +26,10 @@ p {
   flex-direction: row;
 }
 
+.img-recipe img {
+  width: 300px;
+}
+
 @media (max-width: 800px) {
   .container-form {
     margin: 50px 20px 0px 20px;
@@ -49,5 +53,6 @@ p {
 @media (max-width: 480px) {
   .wrapper {
     width: 200px;
+      padding-left: 10px;
   }
 }
