@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService, IRecipe } from '../data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-recipe-complete',
@@ -8,7 +9,7 @@ import { DataService, IRecipe } from '../data.service';
 })
 export class MyRecipeCompleteComponent {
   recipe: IRecipe | null = null;
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private router: Router) {}
   ngOnInit() {
     let recipeStored;
     recipeStored = localStorage.getItem('recipe');
@@ -21,5 +22,9 @@ export class MyRecipeCompleteComponent {
         localStorage.setItem('recipe', JSON.stringify(this.recipe));
       }
     });
+  }
+
+  editRecipe() {
+    this.router.navigate(['add-new-recipe']);
   }
 }
