@@ -105,7 +105,7 @@ export class NewRecipeComponent {
       this.descriptionRecipe = '';
       this.ingredients = [];
       this.imageSrc = null;
-      
+
       alert('Ваш рецепт успешно сохранен!');
       this.router.navigate(['my-recipes']);
     } else {
@@ -122,5 +122,9 @@ export class NewRecipeComponent {
         this.imageSrc = recipe.picture;
       }
     });
+  }
+
+  deleteIngredient(index: number) {
+    this.ingredients.splice(index, 1);
   }
 }

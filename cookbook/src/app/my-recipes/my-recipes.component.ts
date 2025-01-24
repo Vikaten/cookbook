@@ -23,4 +23,8 @@ export class MyRecipesComponent {
   openRecipe(index: number) {
     this.dataService.openRecipe(index);
   }
+
+  deleteRecipe(index: number) {
+    this.dataService.deleteRecipe(index);
+  }
 }
