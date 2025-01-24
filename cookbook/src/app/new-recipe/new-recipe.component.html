@@ -42,8 +42,9 @@
         }}</mat-option>
       </mat-select>
     </div>
-    <div *ngFor="let el of ingredients">
+    <div *ngFor="let el of ingredients; let i = index">
       {{ el.name }} ({{ el.quantity }} {{ el.unit }})
+      <mat-icon (click)="deleteIngredient(i)">delete</mat-icon>
     </div>
     <button (click)="addMeasurements()">Добавить ингредиент</button>
   </div>
