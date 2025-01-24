@@ -9,6 +9,9 @@
     top: 50%;
     right: 50%;
     transform: translate(50%,-50%);
+    background-color: #ffffff;
+    padding: 50px 30px;
+    border-radius: 20px;
 }
 
 .main-container p, h1 {
@@ -16,8 +19,9 @@
 }
 
 button {
-    width: 120px;
+    width: 170px;
     height: 50px;
     border-radius: 20px;
-
+    border: none;
+    padding: 10px 20px;
 }

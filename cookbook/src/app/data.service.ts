@@ -55,7 +55,10 @@ export class DataService {
   updateData(updatedRecipe: IRecipe, index: number) {
     if (index >= 0 && index < this.recipesArr.length) {
       this.recipesArr[index] = updatedRecipe;
+      localStorage.removeItem('recipes');
+      localStorage.setItem('recipes', JSON.stringify(this.recipesArr));
       localStorage.setItem('recipe', JSON.stringify(this.recipesArr[index]));
+      localStorage.getItem('recipe');
       this.recipesSubject.next(this.recipesArr);
     }
   }

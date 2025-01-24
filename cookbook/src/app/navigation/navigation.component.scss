@@ -1,12 +1,26 @@
 .list-items {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-    justify-content: right;
-    padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  justify-content: right;
+  padding: 20px;
+  margin: 0;
 }
 
 .list-items li {
-    text-decoration: none;
-    list-style: none;
+  text-decoration: none;
+  list-style: none;
+}
+
+.list-items a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+nav {
+  background-color: #413e33;
+}
+
+.active-page {
+  border-bottom: 1px solid #ffffff;
 }

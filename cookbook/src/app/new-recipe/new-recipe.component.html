@@ -42,7 +42,7 @@
         }}</mat-option>
       </mat-select>
     </div>
-    <div *ngFor="let el of ingredients; let i = index">
+    <div *ngFor="let el of ingredients; let i = index" class="list-ingredients">
       {{ el.name }} ({{ el.quantity }} {{ el.unit }})
       <mat-icon (click)="deleteIngredient(i)">delete</mat-icon>
     </div>
