@@ -15,6 +15,6 @@
     />
     <h3>{{ recipe.name }}</h3>
     <h3>{{ recipe.savedDate | date: 'short' }}</h3>
-    <mat-icon (click)="deleteRecipe(i)">delete</mat-icon>
+    <mat-icon (click)="deleteRecipe(i); $event.stopPropagation()">delete</mat-icon>
   </div>
 </div>

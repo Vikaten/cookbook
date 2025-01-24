@@ -9,9 +9,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class ModalComponent {
   constructor(
     private matDialog: MatDialogRef<ModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: string }
+    @Inject(MAT_DIALOG_DATA)
+    public data: { message: string; buttonText: string }
   ) {}
   close() {
     this.matDialog.close();
+    this.matDialog.close(true);
   }
 }

@@ -49,7 +49,7 @@ export class NewRecipeComponent {
       this.ingredientQuantity = 0;
       this.ingredientUnit = '';
     } else {
-      this.openModal('Введите значения!');
+      this.openModal('Введите значения!', 'Закрыть');
     }
   }
 
@@ -77,7 +77,7 @@ export class NewRecipeComponent {
           reader.readAsDataURL(input.files[0]);
         } else {
           this.openModal(
-            'Вы добавили неверного формата изображение. Выберите другое с одним из следующих расширений: ' +
+            'Вы добавили неверного формата изображение. Выберите другое с одним из следующих расширений: ', 'Закрыть' +
               expansionImg.join(', ')
           );
           input.value = '';
@@ -108,10 +108,10 @@ export class NewRecipeComponent {
         this.dataService.saveData(recipe);
       }
       this.resetForm();
-      this.openModal('Ваш рецепт успешно сохранен!');
+      this.openModal('Ваш рецепт успешно сохранен!', 'Закрыть');
       this.router.navigate(['my-recipes']);
     } else {
-      this.openModal('Вы не ввели все данные');
+      this.openModal('Вы не ввели все данные', 'Закрыть');
     }
   }
 
@@ -144,10 +144,10 @@ export class NewRecipeComponent {
     this.ingredients.splice(index, 1);
   }
 
-  openModal(text: string) {
+  openModal(text: string, buttonText: string) {
     this.matDialog.open(ModalComponent, {
       width: '400px',
-      data: { message: text },
+      data: { message: text, buttonText },
     });
   }
 }

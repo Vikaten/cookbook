@@ -2,6 +2,9 @@ import { Component , OnInit} from '@angular/core';
 import { IRecipe, DataService } from '../data.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ModalComponent } from '../modal/modal.component';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-my-recipes',
@@ -10,7 +13,11 @@ import { Router } from '@angular/router';
 })
 export class MyRecipesComponent {
   titleRecipe$: Observable<IRecipe[]> | undefined;
-  constructor(public dataService: DataService, private router: Router) {}
+  constructor(
+    public dataService: DataService,
+    private router: Router,
+    private matDialog: MatDialog
+  ) {}
   recipe: IRecipe | undefined;
   recipesArr: IRecipe[] = [];
   ngOnInit() {
@@ -25,10 +32,23 @@ export class MyRecipesComponent {
   }
 
   deleteRecipe(index: number) {
-    this.dataService.deleteRecipe(index);
+    const dialogRef = this.openModal('Вы точно хотите удалить?', 'Удалить');
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Если пользователь подтвердил удаление
+        this.dataService.deleteRecipe(index);
+      }
+    });
   }
 
   saveRecipe(recipe: IRecipe) {
     recipe.savedDate = new Date();
+  }
+
+  openModal(text: string, buttonText: string): MatDialogRef<ModalComponent> {
+    return this.matDialog.open(ModalComponent, {
+      width: '400px',
+      data: { message: text, buttonText },
+    });
   }
 }
