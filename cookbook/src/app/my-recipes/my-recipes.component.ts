@@ -27,4 +27,8 @@ export class MyRecipesComponent {
   deleteRecipe(index: number) {
     this.dataService.deleteRecipe(index);
   }
+
+  saveRecipe(recipe: IRecipe) {
+    recipe.savedDate = new Date();
+  }
 }

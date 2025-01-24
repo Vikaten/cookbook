@@ -8,6 +8,7 @@ export interface IRecipe {
   ingredients: Ingredient[];
   description: string;
   picture: string | ArrayBuffer | null | undefined;
+  savedDate?: Date;
 }
 
 @Injectable({
@@ -28,6 +29,7 @@ export class DataService {
   savedRecipes = localStorage.getItem('recipes');
 
   saveData(newRecipe: IRecipe) {
+    newRecipe.savedDate = new Date();
     this.recipesArr.push(newRecipe);
     localStorage.setItem('recipes', JSON.stringify(this.recipesArr));
     this.recipesSubject.next(this.recipesArr);
@@ -52,6 +54,7 @@ export class DataService {
   updateData(updatedRecipe: IRecipe, index: number) {
     if (index >= 0 && index < this.recipesArr.length) {
       this.recipesArr[index] = updatedRecipe;
+      updatedRecipe.savedDate = new Date();
       localStorage.removeItem('recipes');
       localStorage.setItem('recipes', JSON.stringify(this.recipesArr));
       this.recipesSubject.next(this.recipesArr);
