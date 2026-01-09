@@ -1,25 +1,89 @@
 <form class="container-form">
   <div class="title-recipe">
-    <p>Название</p>
+    <p>ФИО</p>
     <mat-form-field class="title-recipe-form form-field">
       <mat-label></mat-label>
       <input
         matInput
-        placeholder="Например, Чизкейк"
-        [(ngModel)]="nameRecipe"
+        placeholder="Например, Иванов Иван Иванович"
+        [(ngModel)]="fullName"
         name="recipeName"
       />
     </mat-form-field>
   </div>
+  <div class="title-recipe">
+    <p>Телефон</p>
+    <mat-form-field class="title-recipe-form form-field">
+      <mat-label></mat-label>
+      <input
+        matInput
+        placeholder="Например, +81234567890"
+        [(ngModel)]="phone"
+        name="recipeName"
+      />
+    </mat-form-field>
+  </div>
+  <div class="title-recipe">
+    <p>Email</p>
+    <mat-form-field class="title-recipe-form form-field">
+      <mat-label></mat-label>
+      <input
+        matInput
+        placeholder="Например, ivan@gmail.com"
+        [(ngModel)]="email"
+        name="recipeName"
+      />
+    </mat-form-field>
+  </div>
+  <div class="title-recipe">
+    <p>Дата оформления заказа</p>
+    <mat-form-field class="title-recipe-form form-field" >
+      <input
+        matInput
+        [matDatepicker]="orderPicker"
+        [(ngModel)]="orderDate"
+        name="orderDate"
+        placeholder="Выберите дату"
+      />
+      <mat-datepicker-toggle matSuffix [for]="orderPicker"></mat-datepicker-toggle>
+      <mat-datepicker #orderPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="title-recipe">
+    <p>Дата готовности</p>
+    <mat-form-field class="title-recipe-form form-field" >
+      <input
+        matInput
+        [matDatepicker]="duePicker"
+        [(ngModel)]="dueDate"
+        name="dueDate"
+        placeholder="Выберите дату"
+      />
+      <mat-datepicker-toggle matSuffix [for]="duePicker"></mat-datepicker-toggle>
+      <mat-datepicker #duePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="title-recipe">
+    <p>Статус</p>
+    <mat-select
+      class="select"
+      [(ngModel)]="status"
+      name="statusUnit"
+    >
+      <mat-option *ngFor="let el of statusName" [value]="el">{{
+          el
+        }}</mat-option>
+    </mat-select>
+  </div>
 
   <div class="ingredients-recipe">
-    <p>Ингредиенты</p>
+    <p>Состав заказа</p>
     <div class="ingredients-recipe-input-block">
       <mat-form-field class="ingredients-recipe-form form-field">
         <mat-label></mat-label>
         <input
           matInput
-          placeholder="Например, Помидоры"
+          placeholder="Например, Торт"
           [(ngModel)]="ingredient"
           name="ingredientName"
         />
@@ -33,7 +97,7 @@
         name="ingredientQuantity"
       />
       <mat-select
-        class="select"
+        class="select ingredientUnit"
         [(ngModel)]="ingredientUnit"
         name="ingredientUnit"
       >
@@ -46,7 +110,7 @@
       {{ el.name }} ({{ el.quantity }} {{ el.unit }})
       <mat-icon (click)="deleteIngredient(i)">delete</mat-icon>
     </div>
-    <button (click)="addMeasurements()">Добавить ингредиент</button>
+    <button (click)="addMeasurements()">Добавить в заказ</button>
   </div>
 
   <div class="description-recipe">

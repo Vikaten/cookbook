@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
+import {RolesService} from "../roles.service";
 
 @Component({
   selector: 'app-navigation',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent {
-
+  protected rolesService: RolesService = inject(RolesService);
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Ingredient } from '../app/new-recipe/new-recipe.component';
-import { BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import {Ingredient} from "./new-recipe/new-recipe.component";
 
 export interface IRecipe {
   name: string;
@@ -11,67 +11,47 @@ export interface IRecipe {
   savedDate?: Date;
 }
 
+interface User {
+  id: number;
+  login: string;
+  role: string;
+}
+
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
+
 export class DataService {
-  constructor(private router: Router) {
-    const savedRecipes = localStorage.getItem('recipes');
-    if (savedRecipes) {
-      this.recipesArr = JSON.parse(savedRecipes);
-      this.recipesSubject.next(this.recipesArr);
-    }
-  }
-  private recipesArr: IRecipe[] = [];
-  public recipesSubject = new BehaviorSubject<IRecipe[]>(this.recipesArr);
-  public selectedRecipeSubject = new BehaviorSubject<IRecipe | null>(null);
-  public selectedRecipeIndex: number | null = null;
-  savedRecipes = localStorage.getItem('recipes');
+  private baseUrl = 'http://localhost:3000/api';
 
-  saveData(newRecipe: IRecipe) {
-    newRecipe.savedDate = new Date();
-    this.recipesArr.push(newRecipe);
-    localStorage.setItem('recipes', JSON.stringify(this.recipesArr));
-    this.recipesSubject.next(this.recipesArr);
+  constructor(private http: HttpClient) {}
+
+  getOrders(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/orders`);
   }
 
-  getRecipes() {
-    return this.recipesSubject.asObservable();
+  getOrderById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/orders/${id}`);
   }
 
-  openRecipe(index: number) {
-    const recipe = this.recipesArr[index];
-    this.selectedRecipeIndex = index;
-    this.selectedRecipeSubject.next(recipe);
-    this.router.navigate(['my-recipe-complete', index]);
-    return recipe;
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/users`);
   }
 
-  getSelectedRecipe() {
-    return this.selectedRecipeSubject.asObservable();
+  getOrderItems(orderId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/orders/${orderId}/items`);
   }
 
-  updateData(updatedRecipe: IRecipe, index: number) {
-    if (index >= 0 && index < this.recipesArr.length) {
-      this.recipesArr[index] = updatedRecipe;
-      updatedRecipe.savedDate = new Date();
-      localStorage.removeItem('recipes');
-      localStorage.setItem('recipes', JSON.stringify(this.recipesArr));
-      this.recipesSubject.next(this.recipesArr);
-    }
+  login(credentials: { login: string; password: string }) {
+    return this.http.post<any>('http://localhost:3000/api/login', credentials);
   }
 
-  deleteRecipe(index: number) {
-    this.recipesArr.splice(index, 1);
-    localStorage.removeItem('recipes');
-    localStorage.setItem('recipes', JSON.stringify(this.recipesArr));
-    localStorage.getItem('recipes');
+  createOrder(order: any) {
+    return this.http.post(`${this.baseUrl}/orders`, order);
   }
 
-  getRecipeByIndex(index: number): IRecipe | undefined {
-    if (index >= 0 && index < this.recipesArr.length) {
-      return this.recipesArr[index];
-    }
-    return undefined;
+  updateOrder(id: number, order: any) {
+    return this.http.put(`${this.baseUrl}/orders/${id}`, order);
   }
+
 }

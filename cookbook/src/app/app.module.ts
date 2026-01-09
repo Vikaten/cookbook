@@ -15,6 +15,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ModalComponent } from './modal/modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AuthComponent } from './auth/auth.component';
+import {HttpClientModule} from "@angular/common/http";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {DateAdapter, MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -24,7 +28,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MyRecipeCompleteComponent,
     NewRecipeComponent,
     NavigationComponent,
-    ModalComponent
+    ModalComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +40,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatIconModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    HttpClientModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

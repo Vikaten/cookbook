@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { IRecipe, DataService } from '../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,16 +15,24 @@ export interface Ingredient {
   templateUrl: './new-recipe.component.html',
   styleUrls: ['./new-recipe.component.scss'],
 })
-export class NewRecipeComponent {
-  measurements: string[] = ['гр', 'кг', 'л', 'мл', 'чашки', 'стаканы', 'шт'];
+export class NewRecipeComponent implements OnInit {
+  measurements: string[] = ['Красный бархат', 'Вишневый', 'Сникерс', 'Медовый', 'Банан-шоколад', 'Клубничный', 'Карамельный'];
+  statusName: string[] = ['Новый', 'В процессе', 'Готов'];
   ingredients: Ingredient[] = [];
   ingredient: string = '';
   ingredientQuantity: number = 0;
   ingredientUnit: string = '';
   imageSrc: string | ArrayBuffer | null | undefined = null;
-  nameRecipe: string = '';
+  fullName: string = '';
   descriptionRecipe: string = '';
+  phone: string = '';
+  email: string = '';
+  orderDate: Date = new Date();
+  dueDate: Date = new Date();
+  status: string = 'Новый';
   imgRecipe: string = '';
+  orderId: number | null = null;
+
 
   constructor(
     private dataService: DataService,
@@ -88,56 +96,67 @@ export class NewRecipeComponent {
   }
 
   submitData() {
-    if (
-      this.nameRecipe !== '' &&
-      this.descriptionRecipe !== '' &&
-      this.ingredients.length !== 0
-    ) {
-      const recipe: IRecipe = {
-        name: this.nameRecipe,
-        ingredients: [...this.ingredients],
-        description: this.descriptionRecipe,
-        picture: this.imageSrc,
-      };
-      if (this.dataService.selectedRecipeIndex !== null) {
-        this.dataService.updateData(
-          recipe,
-          this.dataService.selectedRecipeIndex
-        );
-      } else {
-        this.dataService.saveData(recipe);
-      }
-      this.resetForm();
-      this.openModal('Ваш рецепт успешно сохранен!', 'Закрыть');
-      this.router.navigate(['my-recipes']);
-    } else {
+    if (!this.fullName || !this.phone || !this.email || !this.orderDate) {
       this.openModal('Вы не ввели все данные', 'Закрыть');
+      return;
+    }
+
+    const order = {
+      FullName: this.fullName,
+      Phone: this.phone,
+      Email: this.email,
+      OrderDate: this.orderDate.toISOString(),
+      DueDate: this.dueDate.toISOString(),
+      Status: this.status
+    };
+    console.log(order);
+
+    if (this.orderId) {
+      this.dataService.updateOrder(this.orderId, order).subscribe(() => {
+        this.openModal('Заказ обновлён', 'Закрыть');
+        this.router.navigate(['/orders']);
+      });
+    } else {
+      this.dataService.createOrder(order).subscribe(() => {
+        this.openModal('Заказ создан', 'Закрыть');
+        this.router.navigate(['/orders']);
+      });
     }
   }
 
   ngOnInit(): void {
-    const index = this.route.snapshot.paramMap.get('index');
-    if (index !== null) {
-      this.dataService.selectedRecipeIndex = +index;
-      this.dataService.getSelectedRecipe().subscribe((recipe) => {
-        if (recipe) {
-          this.nameRecipe = recipe.name;
-          this.ingredients = recipe.ingredients;
-          this.descriptionRecipe = recipe.description;
-          this.imageSrc = recipe.picture;
-        }
-      });
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.orderId = +id;
+      this.loadOrder(this.orderId);
     } else {
-      this.dataService.selectedRecipeIndex = null;
       this.resetForm();
     }
   }
 
+  loadOrder(id: number) {
+    this.dataService.getOrderById(id).subscribe(order => {
+      this.fullName = order.FullName;
+      this.phone = order.Phone;
+      this.email = order.Email;
+      this.orderDate = new Date(order.OrderDate);
+      this.dueDate = order.DueDate;
+      this.status = order.Status;
+    });
+  }
+
+
   resetForm() {
-    this.nameRecipe = '';
+    this.fullName = '';
     this.descriptionRecipe = '';
     this.ingredients = [];
     this.imageSrc = null;
+    this.phone = '';
+    this.email = '';
+    this.orderDate = new Date();
+    this.dueDate = new Date();
+    this.status = 'Новый'
   }
 
   deleteIngredient(index: number) {

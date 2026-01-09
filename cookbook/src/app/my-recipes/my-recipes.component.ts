@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
-import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-my-recipes',
@@ -20,26 +19,25 @@ export class MyRecipesComponent {
   ) {}
   recipe: IRecipe | undefined;
   recipesArr: IRecipe[] = [];
-  ngOnInit() {
-    this.titleRecipe$ = this.dataService.getRecipes();
-    this.dataService.getRecipes().subscribe((recipes) => {
-      this.recipesArr = recipes;
-    });
-  }
-
-  openRecipe(index: number) {
-    this.dataService.openRecipe(index);
-  }
-
-  deleteRecipe(index: number) {
-    const dialogRef = this.openModal('Вы точно хотите удалить?', 'Удалить');
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        // Если пользователь подтвердил удаление
-        this.dataService.deleteRecipe(index);
-      }
-    });
-  }
+  // ngOnInit() {
+  //   this.titleRecipe$ = this.dataService.getRecipes();
+  //   this.dataService.getRecipes().subscribe((recipes) => {
+  //     this.recipesArr = recipes;
+  //   });
+  // }
+  //
+  // openRecipe(index: number) {
+  //   this.dataService.openRecipe(index);
+  // }
+  //
+  // deleteRecipe(index: number) {
+  //   const dialogRef = this.openModal('Вы точно хотите удалить?', 'Удалить');
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       this.dataService.deleteRecipe(index);
+  //     }
+  //   });
+  // }
 
   saveRecipe(recipe: IRecipe) {
     recipe.savedDate = new Date();

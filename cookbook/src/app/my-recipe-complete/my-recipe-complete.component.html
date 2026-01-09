@@ -25,5 +25,5 @@
       <img src="{{ recipe?.picture }}" />
     </div>
   </div>
-  <mat-icon (click)="editRecipe()">edit</mat-icon>
+  <mat-icon *ngIf="rolesService.getIsAdmin()" (click)="editRecipe()">edit</mat-icon>
 </form>

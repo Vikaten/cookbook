@@ -1,20 +1,20 @@
 <div class="my-recipes-container">
   <h1>Ваши рецепты</h1>
-  <div class="my-recipe-block" *ngFor="let recipe of titleRecipe$ | async; let i = index;" (click)="dataService.openRecipe(i)">
-    <img
-      *ngIf="recipe.picture"
-      [src]="recipe.picture"
-      alt="картинка"
-      class="cook-img"
-    />
-    <img
-      *ngIf="!recipe.picture"
-      src="/assets/cook-img.png"
-      alt="картинка"
-      class="cook-img"
-    />
-    <h3>{{ recipe.name }}</h3>
-    <h3>{{ recipe.savedDate | date: 'short' }}</h3>
-    <mat-icon (click)="deleteRecipe(i); $event.stopPropagation()">delete</mat-icon>
-  </div>
+<!--  <div class="my-recipe-block" *ngFor="let recipe of titleRecipe$ | async; let i = index;" (click)="dataService.openRecipe(i)">-->
+<!--    <img-->
+<!--      *ngIf="recipe.picture"-->
+<!--      [src]="recipe.picture"-->
+<!--      alt="картинка"-->
+<!--      class="cook-img"-->
+<!--    />-->
+<!--    <img-->
+<!--      *ngIf="!recipe.picture"-->
+<!--      src="/assets/cook-img.png"-->
+<!--      alt="картинка"-->
+<!--      class="cook-img"-->
+<!--    />-->
+<!--    <h3>{{ recipe.name }}</h3>-->
+<!--    <h3>{{ recipe.savedDate | date: 'short' }}</h3>-->
+<!--    <mat-icon (click)="deleteRecipe(i); $event.stopPropagation()">delete</mat-icon>-->
+<!--  </div>-->
 </div>

@@ -35,17 +35,21 @@ button {
 }
 
 .select {
-  width: 150px;
   background-color: #ffffff;
   border-radius: 5px;
   padding: 5px;
+  margin-bottom: 24px;
+
+  .ingredientUnit {
+    width: 150px;
+  }
 }
 
 .ingredients-recipe-input-block {
   display: flex;
   flex-direction: row;
   gap: 20px;
-  align-items: center;
+  align-items: stretch
 }
 
 .ingredients-recipe-form {
