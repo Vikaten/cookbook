@@ -1,31 +1,39 @@
-import { Component } from '@angular/core';
-import { DataService, IRecipe } from '../data.service';
-import { Router } from '@angular/router';
-import { Ingredient } from '../new-recipe/new-recipe.component';
-import {RolesService} from "../roles.service";
+import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import { DataService } from '../data.service';
+import { RolesService } from '../roles.service';
+import { Order } from '../data.service'
 
 @Component({
   selector: 'app-my-recipe-complete',
   templateUrl: './my-recipe-complete.component.html',
   styleUrls: ['./my-recipe-complete.component.scss'],
 })
-export class MyRecipeCompleteComponent {
-  recipe: IRecipe | null = null;
-  recipeIndex: number | null = null;
-  constructor(private dataService: DataService, private router: Router, protected rolesService: RolesService) { }
-  // ngOnInit() {
-  //   this.dataService.getSelectedRecipe().subscribe((recipe) => {
-  //     if (recipe) {
-  //       this.recipe = recipe;
-  //       this.recipeIndex = this.dataService.selectedRecipeIndex;
-  //       localStorage.setItem('recipe', JSON.stringify(this.recipe));
-  //     }
-  //   });
-  // }
+export class MyRecipeCompleteComponent implements OnInit {
+  order: Order | null = null;
 
-  editRecipe() {
-    if (this.recipeIndex !== null) {
-      this.router.navigate(['edit-recipe', this.recipeIndex]);
+  constructor(
+    private route: ActivatedRoute,
+    private dataService: DataService,
+    private router: Router,
+    protected rolesService: RolesService
+  ) {}
+
+  ngOnInit() {
+    const orderId = this.route.snapshot.params['index'];
+    this.dataService.getOrderDetails(orderId).subscribe({
+      next: (order) => {
+        this.order = order;
+      },
+      error: () => {
+        console.error('Ошибка загрузки заказа');
+      }
+    });
+  }
+
+  editOrder(): void {
+    if (this.order) {
+      this.router.navigate(['edit-order', this.order.OrderId]);
     }
   }
 }

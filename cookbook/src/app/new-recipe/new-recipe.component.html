@@ -7,7 +7,7 @@
         matInput
         placeholder="Например, Иванов Иван Иванович"
         [(ngModel)]="fullName"
-        name="recipeName"
+        name="fullName"
       />
     </mat-form-field>
   </div>
@@ -19,7 +19,7 @@
         matInput
         placeholder="Например, +81234567890"
         [(ngModel)]="phone"
-        name="recipeName"
+        name="phone"
       />
     </mat-form-field>
   </div>
@@ -31,7 +31,7 @@
         matInput
         placeholder="Например, ivan@gmail.com"
         [(ngModel)]="email"
-        name="recipeName"
+        name="email"
       />
     </mat-form-field>
   </div>
@@ -66,7 +66,7 @@
   <div class="title-recipe">
     <p>Статус</p>
     <mat-select
-      class="select"
+      class="status"
       [(ngModel)]="status"
       name="statusUnit"
     >
@@ -130,5 +130,8 @@
     <input type="file" (change)="onloadImg($event)" />
   </div>
   <img *ngIf="imageSrc" [src]="imageSrc" alt="" class="img-recipe" />
-  <button (click)="submitData()">Сохранить</button>
+  <button (click)="submitData()">
+    {{ isEditMode ? 'Сохранить изменения' : 'Создать заказ' }}
+  </button>
+
 </form>

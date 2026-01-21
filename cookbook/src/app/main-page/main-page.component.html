@@ -3,5 +3,11 @@
   <p>
     Для оформления нового заказа нажмите на кнопку ниже.
   </p>
-  <button (click)="addRecipe()">Добавить новый заказ</button>
+  <div *ngIf="rolesService.getIsAdmin(); else noAdminBlock">
+    <button (click)="addRecipe()">Добавить новый заказ</button>
+  </div>
+  <ng-template #noAdminBlock>
+    <button (click)="goToRecipe()">Перейти к заказам</button>
+  </ng-template>
+
 </div>

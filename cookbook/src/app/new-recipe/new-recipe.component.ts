@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { IRecipe, DataService } from '../data.service';
+import { DataService } from '../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
@@ -24,12 +24,14 @@ export class NewRecipeComponent implements OnInit {
   ingredientUnit: string = '';
   imageSrc: string | ArrayBuffer | null | undefined = null;
   fullName: string = '';
-  descriptionRecipe: string = '';
+  descriptionRecipe: Event | undefined;
   phone: string = '';
   email: string = '';
   orderDate: Date = new Date();
-  dueDate: Date = new Date();
+  dueDate: Date | null = new Date();
   status: string = 'Новый';
+  comment: string = '';
+  items: any = [];
   imgRecipe: string = '';
   orderId: number | null = null;
 
@@ -96,38 +98,66 @@ export class NewRecipeComponent implements OnInit {
   }
 
   submitData() {
-    if (!this.fullName || !this.phone || !this.email || !this.orderDate) {
+    if (!this.fullName || !this.phone || !this.orderDate || !this.dueDate) {
       this.openModal('Вы не ввели все данные', 'Закрыть');
       return;
     }
 
-    const order = {
-      FullName: this.fullName,
-      Phone: this.phone,
-      Email: this.email,
-      OrderDate: this.orderDate.toISOString(),
-      DueDate: this.dueDate.toISOString(),
-      Status: this.status
+    const orderPayload = {
+      fullName: this.fullName,
+      phone: this.phone,
+      email: this.email,
+      orderDate: this.orderDate.toISOString(),
+      dueDate: this.dueDate.toISOString(),
+      status: this.status,
+      comment: this.comment ?? '',
+      items: this.ingredients.map(i => ({
+        productName: i.name,
+        decoration: i.unit,
+        quantity: i.quantity
+      }))
     };
-    console.log(order);
 
-    if (this.orderId) {
-      this.dataService.updateOrder(this.orderId, order).subscribe(() => {
-        this.openModal('Заказ обновлён', 'Закрыть');
-        this.router.navigate(['/orders']);
-      });
+    if (this.isEditMode && this.orderId) {
+      this.updateOrder(orderPayload);
     } else {
-      this.dataService.createOrder(order).subscribe(() => {
-        this.openModal('Заказ создан', 'Закрыть');
-        this.router.navigate(['/orders']);
-      });
+      this.createOrder(orderPayload);
     }
   }
+
+  createOrder(order: any) {
+    this.dataService.createOrder(order).subscribe({
+      next: () => {
+        this.openModal('Заказ создан', 'Закрыть');
+        this.router.navigate([`/orders/${order.id}`]);
+      },
+      error: err => {
+        console.error(err);
+        this.openModal(err.error?.message || 'Ошибка', 'Закрыть');
+      }
+    });
+  }
+
+  updateOrder(order: any) {
+    this.dataService.updateOrder(this.orderId!, order).subscribe({
+      next: () => {
+        this.openModal('Заказ обновлён', 'Закрыть');
+        this.router.navigate([`/orders/${this.orderId}`]);
+      },
+      error: err => {
+        console.error(err);
+        this.openModal(err.error?.message || 'Ошибка обновления', 'Закрыть');
+      }
+    });
+  }
+
+  isEditMode = false;
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
+      this.isEditMode = true;
       this.orderId = +id;
       this.loadOrder(this.orderId);
     } else {
@@ -136,20 +166,30 @@ export class NewRecipeComponent implements OnInit {
   }
 
   loadOrder(id: number) {
-    this.dataService.getOrderById(id).subscribe(order => {
-      this.fullName = order.FullName;
-      this.phone = order.Phone;
-      this.email = order.Email;
-      this.orderDate = new Date(order.OrderDate);
-      this.dueDate = order.DueDate;
-      this.status = order.Status;
+    this.dataService.getOrderById(id).subscribe({
+      next: order => {
+        this.fullName = order.FullName;
+        this.phone = order.Phone;
+        this.email = order.Email;
+        this.orderDate = new Date(order.OrderDate);
+        this.dueDate = order.DueDate ? new Date(order.DueDate) : null;
+        this.status = order.Status;
+
+        this.ingredients = (order.Items ?? []).map((i: any) => ({
+          name: i.ProductName,
+          quantity: i.Quantity,
+          unit: i.Decoration
+        }));
+      },
+      error: err => {
+        console.error('Ошибка загрузки заказа:', err);
+      }
     });
   }
 
 
   resetForm() {
     this.fullName = '';
-    this.descriptionRecipe = '';
     this.ingredients = [];
     this.imageSrc = null;
     this.phone = '';

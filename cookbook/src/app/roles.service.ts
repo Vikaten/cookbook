@@ -10,9 +10,15 @@ export class RolesService {
 
   setRole(roleId: number) {
     this.roleId = roleId;
+    localStorage.setItem('roleId', roleId.toString());
   }
 
   getIsAdmin() {
-    return this.roleId === 1;
+    return localStorage.getItem('roleId') === '1';
+  }
+
+  clearRole() {
+    this.roleId = null;
+    localStorage.removeItem('roleId');
   }
 }
